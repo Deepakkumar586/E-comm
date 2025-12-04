@@ -1,51 +1,69 @@
 import React, { useEffect, useState } from 'react'
 import { FaMoon, FaSearch, FaShoppingCart, FaSun, FaUser } from 'react-icons/fa'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
 
-  const [theme,setTheme] = useState('light');
+  const [theme, setTheme] = useState('light');
 
-  useEffect(()=>{
+  const carts = useSelector((state) => state.cart.carts)
+
+
+
+  useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
     document.documentElement.classList.add(savedTheme);
 
 
-  },[theme])
+  }, [theme])
 
 
 
-  const toggleTheme = ()=>{
-    const newTheme = theme==='light' ? 'dark' : 'light';
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    localStorage.setItem('theme',newTheme);
+    localStorage.setItem('theme', newTheme);
     document.documentElement.classList.remove(theme);
     document.documentElement.classList.add(newTheme);
   }
+
   return (
     <nav className='bg-white shadow-md dark:bg-gray-800  '>
       <div className='container mx-auto px-2 md:px-4 lg:px-24 py-4 flex items-center justify-between'>
 
         <div className='text-lg font-bold text-gray-950 dark:text-white'>
-          <Link to='/'>E-shop</Link>
+          <Link to='/'>EliteMart</Link>
         </div>
 
         <div className='relative flex-1 mx-4'>
           <form>
-            <input type='text' placeholder='Search products...' className='w-full rounded-lg border py-2 px-4 '/>
-            <FaSearch className='absolute top-3 right-3 text-red-600'/>
+            <input type='text' placeholder='Search products...' className='w-full rounded-lg border py-2 px-4 ' />
+            <FaSearch className='absolute top-3 right-3 text-red-600' />
           </form>
         </div>
 
         <div className='flex items-center space-x-4'>
-          <Link to='/cart'><FaShoppingCart className='text-xl text-gray-950 dark:text-white'/></Link>
+          <Link to="/cart">
+            <div className="relative">
+              {/* Cart Icon */}
+              <FaShoppingCart className="text-xl text-gray-950 dark:text-white" />
+
+              {/* Badge */}
+              {carts.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {carts.length}
+                </span>
+              )}
+            </div>
+          </Link>
           <button onClick={toggleTheme} className='text-gray-950 dark:text-white bg-gray-200 dark:bg-gray-600 p-2 rounded-full'>
-            {theme === 'light' ? <FaMoon/> : <FaSun/>}
+            {theme === 'light' ? <FaMoon /> : <FaSun />}
           </button>
           <button className='hidden md:block text-gray-950 dark:text-white tracking-[1px]'>Login | Register</button>
-          <button className='block md:hidden text-gray-950 dark:text-white'><FaUser/></button>
-          
+          <button className='block md:hidden text-gray-950 dark:text-white'><FaUser /></button>
+
         </div>
       </div>
 

@@ -5,6 +5,8 @@ import HeroImage from '../assets/images/8852975.jpg';
 import InfoSection from '../components/infoSection';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProducts } from '../redux/productSlice';
+import ProductCard from '../components/productCard';
+
 
 
 const Home = () => {
@@ -100,7 +102,7 @@ const Home = () => {
 
 
                   <h2 className="text-5xl font-bold mb-4 text-gray-900 dark:text-white leading-tight">
-                    WELCOME TO <span className="text-red-600 dark:text-red-400">E-SHOP</span>
+                    WELCOME TO <span className="text-red-600 dark:text-red-400">ELITEMART</span>
                   </h2>
 
 
@@ -125,6 +127,86 @@ const Home = () => {
 
         <InfoSection />
 
+        {/* Top Prodcuts */}
+        <div className="mt-16">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="p-4 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl shadow-lg">
+              <FaEye size={32} className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Top <span className="text-red-600 dark:text-red-400">Products</span>
+              </h3>
+              <div className="h-1 w-24 bg-gradient-to-r from-red-500 to-red-600 rounded-full mt-2"></div>
+            </div>
+          </div>
+          <div className="flex flex-wrap  gap-6">
+            {products.slice(0, 4).map((product) => (
+              <div
+                key={product.id}
+                className="flex flex-col w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-20px)] bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300"
+              >
+
+                <div className="relative mb-4 flex-shrink-0">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-40 object-contain p-3"
+                  />
+
+                  <button className="absolute top-2 right-2 p-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
+                    <FaHeart className="text-red-600 dark:text-red-400" size={16} />
+                  </button>
+
+                  <span className="absolute bottom-2 left-2 px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-full">
+                    {product.category}
+                  </span>
+                </div>
+
+                <div className="flex flex-col flex-grow space-y-2">
+
+                  <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-2 flex-grow">
+                    {product.title}
+                  </h3>
+
+                  <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                    {product.description}
+                  </p>
+
+                  <div className="flex items-center gap-1">
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar
+                          key={i}
+                          size={12}
+                          className={`mr-0.5 ${i < Math.floor(product.rating.rate) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      {product.rating.rate} ({product.rating.count})
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xl font-bold text-red-600 dark:text-red-400">
+                      ${product.price}
+                    </span>
+                  </div>
+                </div>
+
+                <button className="mt-4 flex items-center justify-center gap-2 px-3 py-2.5 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white rounded-lg transition-all duration-300 group/btn text-sm flex-shrink-0">
+
+                  <span className="font-semibold transition-all duration-300">
+                    Add to Cart
+                  </span>
+                  <FaShoppingCart className="opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" size={16} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
 
         {/* all products */}
         <div className="mt-16">
@@ -144,76 +226,9 @@ const Home = () => {
           </div>
 
           {/* Flex container for responsive layout */}
-          <div className="flex flex-wrap justify-center gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="flex flex-col w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-20px)] bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300"
-              >
-                {/* Image with Heart Icon */}
-                <div className="relative mb-4 flex-shrink-0">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-40 object-contain p-3"
-                  />
-                  {/* Heart Icon */}
-                  <button className="absolute top-2 right-2 p-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
-                    <FaHeart className="text-red-600 dark:text-red-400" size={16} />
-                  </button>
 
-                  {/* Category Badge */}
-                  <span className="absolute bottom-2 left-2 px-2 py-1 bg-red-600 text-white text-xs font-semibold rounded-full">
-                    {product.category}
-                  </span>
-                </div>
+          <ProductCard products={products} />
 
-                {/* Product Info - Flex grow to fill space */}
-                <div className="flex flex-col flex-grow space-y-2">
-                  {/* Title */}
-                  <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-2 flex-grow">
-                    {product.title}
-                  </h3>
-
-                  {/* Truncated Description */}
-                  <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
-                    {product.description}
-                  </p>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-1">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          size={12}
-                          className={`mr-0.5 ${i < Math.floor(product.rating.rate) ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
-                      {product.rating.rate} ({product.rating.count})
-                    </span>
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xl font-bold text-red-600 dark:text-red-400">
-                      ${product.price}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Cart Button at bottom */}
-                <button className="mt-4 flex items-center justify-center gap-2 px-3 py-2.5 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white rounded-lg transition-all duration-300 group/btn text-sm flex-shrink-0">
-                  <span className="font-semibold transition-all duration-300">
-                    Add to Cart
-                  </span>
-                  <FaShoppingCart className="opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
         </div>
       </main>
     </div>
