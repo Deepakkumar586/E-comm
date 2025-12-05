@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaShoppingBag, FaFire, FaShoppingCart, FaHeart, FaEye, FaChevronRight, FaStar, FaStore } from 'react-icons/fa';
 import { Categories } from '../assets/mockData';
 import HeroImage from '../assets/images/8852975.jpg';
@@ -12,17 +12,23 @@ import ProductCard from '../components/productCard';
 const Home = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+
         const response = await fetch('https://fakestoreapi.com/products');
         const data = await response.json();
         dispatch(setProducts(data));
+        setLoading(false);
 
       }
       catch (error) {
         console.error("Failed to fetch products");
+        setLoading(false);
+
       }
     }
     fetchProducts();
@@ -141,7 +147,7 @@ const Home = () => {
             </div>
           </div>
           <div className="flex flex-wrap  gap-6">
-            {products.slice(0, 4).map((product) => (
+            {loading ? (<p className="text-center text-xl font-semibold w-full text-gray-900 dark:text-white">Loading...</p>) : products.slice(0, 4).map((product) => (
               <div
                 key={product.id}
                 className="flex flex-col w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-20px)] bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300"
@@ -204,6 +210,7 @@ const Home = () => {
                 </button>
               </div>
             ))}
+
           </div>
         </div>
 
@@ -227,7 +234,7 @@ const Home = () => {
 
           {/* Flex container for responsive layout */}
 
-          <ProductCard products={products} />
+          <ProductCard products={products} loading={loading} />
 
         </div>
       </main>

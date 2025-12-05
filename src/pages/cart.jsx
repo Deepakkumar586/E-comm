@@ -81,7 +81,7 @@ const Cart = () => {
                     <div className="lg:w-2/3">
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                             {carts.map((item) => (
-                                <div key={item.id} className="p-6 border-b border-gray-200 dark:border-gray-700 last:border-0 group hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
+                                <div key={item.id} className="p-6 border-b border-gray-200 dark:border-gray-700 last:border-0 group  transition-colors">
                                     <div className="flex flex-col sm:flex-row gap-6">
                                         {/* Product Image */}
                                         <div className="relative">
@@ -122,7 +122,7 @@ const Cart = () => {
                                                     <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
                                                         <button
 
-                                                            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                                            className="px-4 py-2 text-gray-900 dark:text-white transition-colors"
                                                             onClick={() => handleRemoveQuantity(item.id)}
                                                         >
                                                             <FaMinus size={14} />
@@ -132,7 +132,7 @@ const Cart = () => {
                                                         </span>
                                                         <button
                                                             onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                                            className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                                            className="px-4 py-2 text-gray-900 dark:text-white transition-colors"
                                                         >
                                                             <FaPlus size={14} />
                                                         </button>
